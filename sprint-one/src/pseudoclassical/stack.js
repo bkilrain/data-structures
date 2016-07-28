@@ -5,16 +5,15 @@ var Stack = function() {
 };
 
 Stack.prototype.push = function(value) {
-  this.syze++;  
   this.stack[this.syze] = value;
-  
+  this.syze++; 
 };
 
 Stack.prototype.pop = function() {
+  this.syze--;
   this.storage[this.syze] = this.stack[this.syze];
   delete this.stack[this.syze];
-  this.syze--;
-  return this.storage[this.syze + 1];
+  return this.storage[this.syze];
 };
 
 Stack.prototype.size = function() {

@@ -18,10 +18,10 @@ var queueMethods = {
   },
   dequeue: function() {
     var item = this.queue[this.keyOut];
-    this.syze--;
     this.storage[this.keyOut] = item;
     delete this.queue[this.keyOut];
     this.keyOut++;
+    this.syze--;
     return item;
   },
   size: function() {

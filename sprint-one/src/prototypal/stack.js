@@ -9,15 +9,15 @@ var Stack = function() {
 var stackMethods = {};
 
 stackMethods.push = function(value) {
-  this.syze++;
   this.stack[this.syze] = value;
+  this.syze++;
 };
 
 stackMethods.pop = function() {
+  this.syze--;
   this.storage[this.syze] = this.stack[this.syze];
   delete this.stack[this.syze];
-  this.syze--;
-  return this.storage[this.syze + 1];
+  return this.storage[this.syze];
 };
 
 stackMethods.size = function() {
