@@ -20,6 +20,7 @@ var queueMethods = {
     var item = this.queue[this.keyOut];
     this.syze--;
     this.storage[this.keyOut] = item;
+    delete this.queue[this.keyOut];
     this.keyOut++;
     return item;
   },

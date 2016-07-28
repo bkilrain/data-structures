@@ -15,6 +15,7 @@ stackMethods.push = function(value) {
 
 stackMethods.pop = function() {
   this.storage[this.syze] = this.stack[this.syze];
+  delete this.stack[this.syze];
   this.syze--;
   return this.storage[this.syze + 1];
 };

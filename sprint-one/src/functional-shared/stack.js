@@ -19,6 +19,7 @@ var stackMethods = {
   pop: function() {
     this.syze--;
     this.storage[this.syze] = this.stack[this.syze];
+    delete this.stack[this.syze];
     return this.storage[this.syze];
   },
   size: function() {

@@ -18,7 +18,7 @@ var Queue = function() {
     size--;
     keyOut++;
     storage[keyOut] = someInstance[keyOut];
-    
+    delete someInstance[keyOut];
     return storage[keyOut];
   };
 
