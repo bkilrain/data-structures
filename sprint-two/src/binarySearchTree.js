@@ -41,15 +41,13 @@ BinarySearchTreeMethods.contains = function(value) {
   return results;
 };
 
-BinarySearchTreeMethods.depthFirstLog = function(callback) {
-  var goDeep = function(node) {
-    if (Object.keys(node).length > 0) {
-      callback(node.value);
-      goDeep(node.left);
-      goDeep(node.right);
-    }
-  };
-  goDeep(this);
+BinarySearchTreeMethods.depthFirstLog = function(callback, node) {
+  node = node || this;
+  if (Object.keys(node).length > 0) {
+    callback(node.value);
+    node.depthFirstLog(callback, node.left);
+    node.depthFirstLog(callback, node.right);
+  }
 };
 
 /*
