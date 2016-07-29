@@ -14,16 +14,16 @@
 var LimitedArray = function(limit) {
   var storage = [];
 
-  //var limitedArray = {};  <--- I don't think we need this!
-  storage.get = function(index) {
+  var limitedArray = {};  
+  limitedArray.get = function(index) {
     checkLimit(index);
     return storage[index];
   };
-  storage.set = function(index, value) {
+  limitedArray.set = function(index, value) {
     checkLimit(index);
     storage[index] = value;
   };
-  storage.each = function(callback) {
+  limitedArray.each = function(callback) {
     for (var i = 0; i < storage.length; i++) {
       callback(storage[i], i, storage);
     }
@@ -38,7 +38,7 @@ var LimitedArray = function(limit) {
     }
   };
 
-  return storage;
+  return limitedArray;
 };
 
 // This is a "hashing function". You don't need to worry about it, just use it

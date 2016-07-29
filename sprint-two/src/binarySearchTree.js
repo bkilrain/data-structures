@@ -10,35 +10,34 @@ var BinarySearchTree = function(value) {
 
 var BinarySearchTreeMethods = {};
 
-BinarySearchTreeMethods.insert = function(value) {
-  var traverse = function(node) {
-    if (Object.keys(node.left).length > 0 && node.value > value) {
-      traverse(node.left);
-    } else if (Object.keys(node.right).length > 0 && node.value < value) {
-      traverse(node.right);
-    } else if (node.value > value) {
+BinarySearchTreeMethods.insert = function(value, node) {
+  node = node || this;
+  if (node.value > value) {
+    if (Object.keys(node.left).length > 0) {
+      node.insert(value, node.left);
+    } else {
       node.left = BinarySearchTree(value);
-    } else if (node.value < value) {
+    }
+  } else if (node.value < value) {
+    if (Object.keys(node.right).length > 0) {
+      node.insert(value, node.right);
+    } else {
       node.right = BinarySearchTree(value);
     }
-  };
-  traverse(this);
+  }
 };
 
-BinarySearchTreeMethods.contains = function(value) {
-  results = false;
-
-  var search = function(node) {
-    if (node.value > value) {
-      search(node.left);
-    } else if (node.value < value) {
-      search(node.right);
-    } else if (node.value === value) {
-      results = true;
-    }
-  };
-  search(this);
-  return results;
+BinarySearchTreeMethods.contains = function(value, node, result) {
+  result = result || false;
+  node = node || this;
+  if (node.value > value) {
+    result = node.contains(value, node.left, result);
+  } else if (node.value < value) {
+    result = node.contains(value, node.right, result);
+  } else if (node.value === value) {
+    return true;
+  }
+  return result;
 };
 
 BinarySearchTreeMethods.depthFirstLog = function(callback, node) {
