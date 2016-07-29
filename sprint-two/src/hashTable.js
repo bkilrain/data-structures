@@ -7,24 +7,45 @@ var HashTable = function() {
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var bucket = {};
+  var overWritten = false;
+  var bucket = [];
   if (this._storage[index] !== undefined) {
     bucket = this._storage.get(index);
-  } 
-  bucket[k] = v;
+    _.forEach(bucket, function(tuple) {
+      if (tuple[0] === k) {
+        tuple[1] = v;
+        overWritten = true;
+      }
+    });
+    if (!overWritten) {
+      bucket.push([k, v]);  
+    }
+  } else {
+    bucket.push([k, v]);
+  }
   this._storage.set(index, bucket);
-  
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(index)[k];
+  var bucket = this._storage.get(index);
+  var value;
+  _.forEach(bucket, function(tuple) {
+    if (tuple[0] === k) {
+      value = tuple[1];
+    }
+  });
+  return value;
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var bucket = this._storage.get(index);
-  delete bucket[k];
+  _.forEach(bucket, function(tuple, idx) {
+    if (tuple[0] === k) {
+      bucket.splice(idx, 1);
+    }
+  });
   this._storage.set(index, bucket);
 };
 
