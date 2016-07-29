@@ -20,6 +20,13 @@ HashTable.prototype.insert = function(k, v) {
     bucket.push([k, v]);
   }
   this._storage.set(index, bucket);
+  this._size++;
+  this.checkSize();
+  this._storage.each(function(item) {
+    var arr = [];
+    arr.push(item);
+    console.log(arr);
+  });
 };
 
 HashTable.prototype.retrieve = function(k) {
@@ -43,9 +50,50 @@ HashTable.prototype.remove = function(k) {
     }
   });
   this._storage.set(index, bucket);
+  this._size--;
+  this.checkSize();
+};
+
+HashTable.prototype.checkSize = function() {
+  var intRatio = this._size / this._limit;
+  if (intRatio >= 0.75 ) {
+    this.doubleSize();
+  }
+  if (intRatio <= 0.25) {
+    this.halveSize();
+  }
+}; 
+
+HashTable.prototype.doubleSize = function() {
+  var oldStorage = [];
+  this._storage.each(function(item) {
+    if (item) {
+      oldStorage.push(item);  
+    }
+  });
+  this._limit *= 2;
+  this._storage = LimitedArray(this._limit);
+  for (var i = 0; i < oldStorage.length; i++) {
+    for (var j = 0; j < oldStorage[i].length; j++) {
+      this.insert(oldStorage[i][j][0], oldStorage[i][j][1]);
+    }
+  }
 };
 
 
+HashTable.prototype.halveSize = function() {
+  // var oldStorage = [];
+  // this._storage.each(function(item) {
+  //   oldStorage.push(item);
+  // });
+  // this._limit *= 2;
+  // this._storage = LimitedArray(this._limit);
+  // for (var i = 0; i < oldStorage.length; i++) {
+  //   for (var j = 0; j < oldStorage[i].length; i++) {
+  //     this.insert(oldStorage[i][j][0], oldStorage[i][j][1]);
+  //   }
+  // }
+};
 
 /*
  * Complexity: What is the time complexity of the above functions?
