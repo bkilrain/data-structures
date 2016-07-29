@@ -8,19 +8,14 @@ var HashTable = function() {
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var overWritten = false;
-  var bucket = [];
-  if (this._storage[index] !== undefined) {
-    bucket = this._storage.get(index);
-    _.forEach(bucket, function(tuple) {
-      if (tuple[0] === k) {
-        tuple[1] = v;
-        overWritten = true;
-      }
-    });
-    if (!overWritten) {
-      bucket.push([k, v]);  
+  var bucket = this._storage.get(index) || [];
+  _.forEach(bucket, function(tuple) {
+    if (tuple[0] === k) {
+      tuple[1] = v;
+      overWritten = true;
     }
-  } else {
+  });
+  if (!overWritten || bucket.length === 0) {
     bucket.push([k, v]);
   }
   this._storage.set(index, bucket);
