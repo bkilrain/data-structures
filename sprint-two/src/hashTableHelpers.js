@@ -14,16 +14,16 @@
 var LimitedArray = function(limit) {
   var storage = [];
 
-  var limitedArray = {};
-  limitedArray.get = function(index) {
+  //var limitedArray = {};  <--- I don't think we need this!
+  storage.get = function(index) {
     checkLimit(index);
     return storage[index];
   };
-  limitedArray.set = function(index, value) {
+  storage.set = function(index, value) {
     checkLimit(index);
     storage[index] = value;
   };
-  limitedArray.each = function(callback) {
+  storage.each = function(callback) {
     for (var i = 0; i < storage.length; i++) {
       callback(storage[i], i, storage);
     }
@@ -38,7 +38,7 @@ var LimitedArray = function(limit) {
     }
   };
 
-  return limitedArray;
+  return storage;
 };
 
 // This is a "hashing function". You don't need to worry about it, just use it
@@ -56,4 +56,9 @@ var getIndexBelowMaxForKey = function(str, max) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
+ get: O(1)
+ set: O(1)
+ each: O(n)
+ checkLimit: O(1)
+ getIndexBelowMaxForKey: O(n)
  */
