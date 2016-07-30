@@ -5,7 +5,6 @@ var HashTable = function() {
   this._storage = LimitedArray(this._limit);
   this._size = 0;
   this.halveMe = false;
-  this.intRatio = this._size / this._limit;
 };
 
 HashTable.prototype.insert = function(k, v) {
