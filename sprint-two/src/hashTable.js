@@ -22,11 +22,7 @@ HashTable.prototype.insert = function(k, v) {
   this._storage.set(index, bucket);
   this._size++;
   this.checkSize();
-  this._storage.each(function(item) {
-    var arr = [];
-    arr.push(item);
-    console.log(arr);
-  });
+  
 };
 
 HashTable.prototype.retrieve = function(k) {
@@ -72,6 +68,7 @@ HashTable.prototype.doubleSize = function() {
     }
   });
   this._limit *= 2;
+  this._size = 0;
   this._storage = LimitedArray(this._limit);
   for (var i = 0; i < oldStorage.length; i++) {
     for (var j = 0; j < oldStorage[i].length; j++) {
