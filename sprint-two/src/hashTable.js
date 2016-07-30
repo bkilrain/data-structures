@@ -4,6 +4,8 @@ var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
   this._size = 0;
+  this.halveMe = false;
+  this.intRatio = this._size / this._limit;
 };
 
 HashTable.prototype.insert = function(k, v) {
@@ -53,43 +55,39 @@ HashTable.prototype.remove = function(k) {
 HashTable.prototype.checkSize = function() {
   var intRatio = this._size / this._limit;
   if (intRatio >= 0.75 ) {
-    this.doubleSize();
+    this.halveMe = false;
+    this.resizer('double');
   }
-  if (intRatio <= 0.25) {
-    this.halveSize();
+  if (intRatio <= 0.25 && this.halveMe && this._limit > 8) { // <--- minimum hash table size is 8!!
+    this.halveMe = false;
+    this.resizer('halve');
+  }
+  if (intRatio > 0.25) {
+    this.halveMe = true;
   }
 }; 
 
-HashTable.prototype.doubleSize = function() {
+HashTable.prototype.resizer = function(method) {
   var oldStorage = [];
   this._storage.each(function(item) {
-    if (item) {
+    if (item && item.length > 0) {
       oldStorage.push(item);  
     }
   });
-  this._limit *= 2;
+  if (method === 'double') {
+    this._limit *= 2;
+  } else {
+    this._limit /= 2;
+  }
   this._size = 0;
   this._storage = LimitedArray(this._limit);
   for (var i = 0; i < oldStorage.length; i++) {
-    for (var j = 0; j < oldStorage[i].length; j++) {
-      this.insert(oldStorage[i][j][0], oldStorage[i][j][1]);
+    var bucket = oldStorage[i];
+    for (var j = 0; j < bucket.length; j++) {
+      this.insert(bucket[j][0], bucket[j][1]);
     }
   }
-};
 
-
-HashTable.prototype.halveSize = function() {
-  // var oldStorage = [];
-  // this._storage.each(function(item) {
-  //   oldStorage.push(item);
-  // });
-  // this._limit *= 2;
-  // this._storage = LimitedArray(this._limit);
-  // for (var i = 0; i < oldStorage.length; i++) {
-  //   for (var j = 0; j < oldStorage[i].length; i++) {
-  //     this.insert(oldStorage[i][j][0], oldStorage[i][j][1]);
-  //   }
-  // }
 };
 
 /*
@@ -97,6 +95,8 @@ HashTable.prototype.halveSize = function() {
  insert: Time complexity is O(1)
  retrieve: Time complexity O(1)
  remove: Time complexity is O(1)
+ checkSize: O(1)
+ resize: O(n)
  */
 
 
