@@ -11,12 +11,21 @@ var DoubleLinkedList = function() {
       list.tail = newNode;
     } else {
       list.tail.next = newNode;
+      newNode.previous = list.tail;
       list.tail = list.tail.next;
     }
   };
 
   list.addToHead = function(value) {
-
+    var newNode = DLLNode(value);
+    if (list.head === null) {
+      list.head = newNode;
+      list.tail = newNode;
+    } else {
+      list.head.previous = newNode;
+      newNode.next = list.head;
+      list.head = list.head.previous;
+    }
   };
 
   list.removeHead = function() {
@@ -26,13 +35,15 @@ var DoubleLinkedList = function() {
   };
 
   list.removeTail = function() {
-
+    var removed = list.tail.value;
+    list.tail = list.tail.previous;
+    return removed;
   };
 
   list.contains = function(target) {
-    var node = list.head;
-    while (node.value !== target && node !== list.tail) {
-      node = node.next;
+    var node = list.tail;
+    while (node.value !== target && node !== list.head) {
+      node = node.previous;
     }
     if (node.value === target) {
       return true;

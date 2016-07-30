@@ -58,12 +58,40 @@ describe('linkedList', function() {
   it('DLL should have methods named "addtoHead" and "removeTail"', function() {
     expect(doubleLinkedList.addToHead).to.be.a('function');
     expect(doubleLinkedList.removeTail).to.be.a('function');
-    expect(doubleLinkedList.contains).to.be.a('function');
   });
 
-  xit('DLL should have methods named "addtoHead" and "removeTail"', function() {
-    expect(doubleLinkedList.addToHead).to.be.a('function');
-    expect(doubleLinkedList.removeTail).to.be.a('function');
-    expect(doubleLinkedList.contains).to.be.a('function');
+  it('DLL should designate a new head when new nodes are added to the head', function() {
+    doubleLinkedList.addToHead(4);
+    expect(doubleLinkedList.head.value).to.equal(4);
+    doubleLinkedList.addToHead(5);
+    expect(doubleLinkedList.head.value).to.equal(5);
+  });
+
+  it('DLL should remove the tail from the list when removeTail is called', function() {
+    doubleLinkedList.addToHead(4);
+    doubleLinkedList.addToHead(5);
+    expect(doubleLinkedList.tail.value).to.equal(4);
+    doubleLinkedList.removeTail();
+    expect(doubleLinkedList.tail.value).to.equal(5);
+  });
+
+  it('DLL should return the value of the former tail when removeTail is called', function() {
+    doubleLinkedList.addToHead(4);
+    expect(doubleLinkedList.removeTail()).to.equal(4);
+  });
+
+    it('DLL should contain a value that was added', function() {
+    doubleLinkedList.addToTail(4);
+    doubleLinkedList.addToTail(5);
+    expect(doubleLinkedList.contains(4)).to.equal(true);
+    expect(doubleLinkedList.contains(5)).to.equal(true);
+    expect(doubleLinkedList.contains(6)).to.equal(false);
+  });
+
+  it('DLL should not contain a value that was removed', function() {
+    doubleLinkedList.addToTail(4);
+    doubleLinkedList.addToTail(5);
+    doubleLinkedList.removeHead();
+    expect(doubleLinkedList.contains(4)).to.equal(false);
   });
 });
