@@ -102,11 +102,20 @@
         }
       };
 
-      dequeueTest();
+      
       popTest();
 
-      var stackSize = stackLarge.size();
-      var queueSize = queueLarge.size();
+      dequeueTest();
+      var getStackSize = function() {
+        return stackLarge.size();
+      };
+
+      var getQueueSize = function() {
+        return queueLarge.size();
+      };
+
+      getStackSize();
+      getQueueSize();
 
 
 
