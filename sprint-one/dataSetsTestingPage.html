@@ -91,13 +91,13 @@
       makeLargeQueue();
 
       var popTest = function() {
-        for (var i = 0; i < 400; i++) {
+        for (var i = 0; i < 10000; i++) {
           stackLarge.pop();
         }
       };
 
       var dequeueTest = function() {
-        for (var i = 0; i < 400; i++) {
+        for (var i = 0; i < 10000; i++) {
           queueLarge.dequeue();        
         }
       };
@@ -105,6 +105,8 @@
       dequeueTest();
       popTest();
 
+      var stackSize = stackLarge.size();
+      var queueSize = queueLarge.size();
 
 
 

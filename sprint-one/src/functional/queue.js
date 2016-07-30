@@ -11,15 +11,15 @@ var Queue = function() {
   someInstance.enqueue = function(value) {    
     size++;
     keyIn++;
-    someInstance[keyIn] = value;
+    storage[keyIn] = value;
   };
 
   someInstance.dequeue = function() {
     size--;
     keyOut++;
-    storage[keyOut] = someInstance[keyOut];
-    delete someInstance[keyOut];
-    return storage[keyOut];
+    var val = storage[keyOut];
+    delete storage[keyOut];
+    return val;
   };
 
   someInstance.size = function() {
