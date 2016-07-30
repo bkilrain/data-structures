@@ -51,5 +51,19 @@ describe('linkedList', function() {
     expect(linkedList.contains(4)).to.equal(false);
   });
 
-  // add more tests here to test the functionality of linkedList
+  beforeEach(function() {
+    doubleLinkedList = DoubleLinkedList();
+  });
+  
+  it('DLL should have methods named "addtoHead" and "removeTail"', function() {
+    expect(doubleLinkedList.addToHead).to.be.a('function');
+    expect(doubleLinkedList.removeTail).to.be.a('function');
+    expect(doubleLinkedList.contains).to.be.a('function');
+  });
+
+  xit('DLL should have methods named "addtoHead" and "removeTail"', function() {
+    expect(doubleLinkedList.addToHead).to.be.a('function');
+    expect(doubleLinkedList.removeTail).to.be.a('function');
+    expect(doubleLinkedList.contains).to.be.a('function');
+  });
 });
