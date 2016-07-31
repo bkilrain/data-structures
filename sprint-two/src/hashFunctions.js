@@ -13,7 +13,7 @@
  */
 
 
-function murmurhash3_32_gc(key) {
+var murmurhash = function(key) {
   var remainder, bytes, h1, h1b, c1, c1b, c2, c2b, k1, i;
   
 
@@ -26,11 +26,11 @@ function murmurhash3_32_gc(key) {
   i = 0;
   
   while (i < bytes) {
-      k1 = 
-        ((key.charCodeAt(i) & 0xff)) |
-        ((key.charCodeAt(++i) & 0xff) << 8) |
-        ((key.charCodeAt(++i) & 0xff) << 16) |
-        ((key.charCodeAt(++i) & 0xff) << 24);
+    k1 = 
+      ((key.charCodeAt(i) & 0xff)) |
+      ((key.charCodeAt(++i) & 0xff) << 8) |
+      ((key.charCodeAt(++i) & 0xff) << 16) |
+      ((key.charCodeAt(++i) & 0xff) << 24);
     ++i;
     
     k1 = ((((k1 & 0xffff) * c1) + ((((k1 >>> 16) * c1) & 0xffff) << 16))) & 0xffffffff;
@@ -38,7 +38,7 @@ function murmurhash3_32_gc(key) {
     k1 = ((((k1 & 0xffff) * c2) + ((((k1 >>> 16) * c2) & 0xffff) << 16))) & 0xffffffff;
 
     h1 ^= k1;
-        h1 = (h1 << 13) | (h1 >>> 19);
+    h1 = (h1 << 13) | (h1 >>> 19);
     h1b = ((((h1 & 0xffff) * 5) + ((((h1 >>> 16) * 5) & 0xffff) << 16))) & 0xffffffff;
     h1 = (((h1b & 0xffff) + 0x6b64) + ((((h1b >>> 16) + 0xe654) & 0xffff) << 16));
   }
@@ -79,18 +79,18 @@ function murmurhash3_32_gc(key) {
  * @param {integer} [seed] optionally pass the hash of the previous chunk
  * @returns {integer | string}
  */
-function hashFnv32a(str, asString, seed) {
+var hashFnv32a = function(str, asString, seed) {
     /*jshint bitwise:false */
-    var i, l,
-        hval = (seed === undefined) ? 0x811c9dc5 : seed;
+  var i, l,
+  hval = (seed === undefined) ? 0x811c9dc5 : seed;
 
-    for (i = 0, l = str.length; i < l; i++) {
-        hval ^= str.charCodeAt(i);
-        hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
-    }
-    if( asString ){
-        // Convert to 8 digit hex string
-        return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
-    }
-    return hval >>> 0;
+  for (i = 0, l = str.length; i < l; i++) {
+    hval ^= str.charCodeAt(i);
+    hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
+  }
+  if ( asString ) {
+    // Convert to 8 digit hex string
+    return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
+  }
+  return hval >>> 0;
 }
