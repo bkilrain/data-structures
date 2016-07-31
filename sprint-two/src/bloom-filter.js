@@ -5,13 +5,20 @@ var BloomFilter = function() {
 
 BloomFilter.prototype.addToSet = function(string) {
   var indices = this.hashThreeTimes(string);
-  indices.forEach(function(val) {
-    this._bitArray.set(true);
-  }.bind(this))
+  indices.forEach(function(idx) {
+    this._bitArray.set(idx, true);
+  }.bind(this));
+  console.log(this._bitArray);
 };
 
 BloomFilter.prototype.contains = function(string) {
-
+  var indices = this.hashThreeTimes(string);
+  for (var i = 0; i < indices.length; i++) {
+    if (this._bitArray.get(indices[i]) === true) {
+      return true;
+    }
+  }
+  return false;
 };
 
 BloomFilter.prototype.hashThreeTimes = function(string) {
@@ -20,4 +27,4 @@ BloomFilter.prototype.hashThreeTimes = function(string) {
   results.push(murmurhash(string));
   results.push(hashFnv32a(string, false, 1) % this.m);
   return results;
-}
+};
